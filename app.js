@@ -24,6 +24,10 @@ function App() {
     setList(updatedList);
   };
 
+  const clearAll = () => {
+    setList([]); 
+  };
+
   const getTotal = () => {
     return list.reduce((sum, item) => sum + item.quantity * item.cost, 0).toFixed(2);
   };
@@ -42,7 +46,7 @@ function App() {
         />
         <input
           type="number"
-          placeholder="Qty"
+          placeholder="Quantity"
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
           style={{ ...styles.input, width: "80px" }}
@@ -58,27 +62,30 @@ function App() {
       </div>
 
       <div style={styles.card}>
-        <h2>Your Items:</h2>
+        <h2>Your Items</h2>
         {list.length === 0 ? (
-          <p style={{ color: "#777" }}>No items yet</p>
+          <p style={{ color: "#777" }}>No items added</p>
         ) : (
           <ul style={styles.list}>
             {list.map((item, index) => (
               <li key={index} style={styles.listItem}>
                 <div>
                   <strong>{item.name}</strong><br />
-                  Qty: {item.quantity}, ₹{item.cost} each<br />
+                  Quantity: {item.quantity}, Cost: ₹{item.cost} each<br />
                   Total: ₹{(item.quantity * item.cost).toFixed(2)}
                 </div>
-                <button onClick={() => deleteItem(index)} style={styles.deleteButton}>❌</button>
+                <button onClick={() => deleteItem(index)} style={styles.deleteButton}>Delete</button>
               </li>
             ))}
           </ul>
         )}
         {list.length > 0 && (
-          <h3 style={{ textAlign: "right", marginTop: "10px" }}>
-            Grand Total: ₹{getTotal()}
-          </h3>
+          <>
+            <h3 style={{ textAlign: "right", marginTop: "10px" }}>
+              Grand Total: ₹{getTotal()}
+            </h3>
+            <button onClick={clearAll} style={styles.clearButton}>Clear All</button>
+          </>
         )}
       </div>
     </div>
@@ -143,6 +150,17 @@ const styles = {
     padding: "6px 10px",
     borderRadius: "5px",
     cursor: "pointer",
+  },
+  clearButton: {
+    display: "block",
+    margin: "20px auto 0",
+    padding: "10px 15px",
+    backgroundColor: "#d9534f",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontSize: "16px",
   },
 };
 
